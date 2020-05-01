@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steganography - Medium challenge</title>
+    <link rel="stylesheet" lang="text/css" href="./assets/css/bootstrap.min.css" />
+    <script type="text/javascript" src="./assets/js/app.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Steganography - Medium challenge</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarColor03">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+        </div>
+      </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <form id="imageForm">
+                    <legend>Upload image</legend>
+                    <fieldset>
+                    <div class="form-group">
+                        <label for="exampleTextarea">Enter your text</label>
+                        <textarea class="form-control" id="textInput" name="textInput"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">Upload image</label>
+                        <input type="file" accept="image/jpeg" class="form-control-file" id="fileInput" name="fileInput">
+                    </div>
+                    </fieldset>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <img class="img-fluid" id="imagePreview"/>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                        role="progressbar" 
+                        aria-valuemin="0" 
+                        aria-valuemax="100"
+                        id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        if(typeof App !== "undefined"){
+            App.init(document);
+            App.run();
+        } else {
+            console.error("An error has occurred while loading the App.");
+        }
+    </script>
+</body>
+</html>

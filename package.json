@@ -1,0 +1,23 @@
+{
+  "name": "steganography-medium",
+  "version": "1.0.0",
+  "description": "Steganography Exercise - Image",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codepadawan93/steganography-exercise-image.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codepadawan93/steganography-exercise-image/issues"
+  },
+  "homepage": "https://github.com/codepadawan93/steganography-exercise-image#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3"
+  }
+}
