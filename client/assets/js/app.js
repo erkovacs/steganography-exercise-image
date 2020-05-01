@@ -88,6 +88,11 @@ const App = (function(){
         return model;
    };
 
+   let _setText = (id, text) => {
+       const el = App._document.getElementById(id);
+       el.value = text;
+   };
+
    App.init = _document => {
        App._document = _document;
         
@@ -132,7 +137,7 @@ const App = (function(){
                 const json = await response.json();
                 if(json.success){
                     _displayFile("imagePreview", json.file);
-                    console.log(json.text);
+                    _setText("textInput", json.text);
                 } else {
                     _addError("imageForm", json.message);
                 }

@@ -32,15 +32,13 @@ app.post("/api/encodeImage", (req, res) => {
                 break;
         }
 
-        console.log(processedData);
-
         const rawOutData = {
             data: processedData,
             width: rawInData.width,
             height: rawInData.height,
         };
         
-        const jpegImageData = jpeg.encode(rawOutData, 50);
+        const jpegImageData = jpeg.encode(rawOutData, 100);
 
         const dataUrl = jpegImageData.data.toString("base64");
         res.status(200).json({
@@ -63,7 +61,7 @@ app.post("/api/decodeImage", (req, res) => {
         switch(algorithm){
             case "alpha":
                 // hide data in the alpha channel
-                extractedText = algorithms.decode.alpha(rawInData.data, text);
+                extractedText = algorithms.decode.alpha(rawInData.data);
                 break;
             default:
                 // just use this filter
@@ -71,15 +69,13 @@ app.post("/api/decodeImage", (req, res) => {
                 break;
         }
 
-        console.log(extractedText);
-
         const rawOutData = {
             data: rawInData.data,
             width: rawInData.width,
             height: rawInData.height,
         };
         
-        const jpegImageData = jpeg.encode(rawOutData, 50);
+        const jpegImageData = jpeg.encode(rawOutData, 100);
 
         const dataUrl = jpegImageData.data.toString("base64");
         res.status(200).json({
