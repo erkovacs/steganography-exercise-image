@@ -180,7 +180,5 @@ const App = (function(){
             App._document.body.removeChild(link);
         });
    };
-   App.run = () => {
-   };
    return App;
 })();
