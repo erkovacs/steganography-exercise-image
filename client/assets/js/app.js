@@ -34,18 +34,18 @@ const App = (function(){
        }, 2000);
    };
 
-   let _validateForm = (params) => {
+   let _validateForm = (model, params) => {
        let answer = true;
-       if(!params.image || params.image.size <= 0){
+       if(!model.image || model.image.size <= 0){
            _addError("fileInput", "An image file is required.");
            answer = false;
        }
-       if(!params.algorithm || params.algorithm.length <= 0){
+       if(!model.algorithm || model.algorithm.length <= 0){
             _addError("algorithmSelect", "An algorithm is required.");
             answer = false;
        }
-       if(params.image && params.image.type !== "image/jpeg"){
-            _addError("fileInput", "Only JPEG images are supported.");
+       if(model.image && params.allowedImageTypes.indexOf(model.image.type) < 0){
+            _addError("fileInput", `Only ${params.allowedImageTypes.join(' ')} images are supported.`);
             answer = false;
        }
        return answer;
@@ -88,6 +88,16 @@ const App = (function(){
         return model;
    };
 
+   let _attemptParse = string => {
+    const start = string.search(/\<MSG\>/gi);
+    const end = string.search(/\<\/MSG\>/gi);
+    if(start > -1 && end > -1){
+        return string.substring(start + 5, end);
+    } else {
+        return "No message appears to be present. Raw data: \n\n" + string;
+    }
+   }
+
    let _setText = (id, text) => {
        const el = App._document.getElementById(id);
        el.value = text;
@@ -109,17 +119,25 @@ const App = (function(){
         _attachEventHandler("encodeBtn", "click", async (el, event) => {
             event.preventDefault();
             const model = _getFormData();
-            if(_validateForm(model)){
+            if(_validateForm(model, { 
+                allowedImageTypes: [
+                "image/jpeg",
+                "image/bmp"
+            ] })){
                 _toggleLoad();
-                const response = await fetch(ENDPOINT + "encodeImage", {
-                   method: 'POST',
-                   body: model.formData
-                });
-                const json = await response.json();
-                if(json.success){
-                    _displayFile("imagePreview", json.file);
-                } else {
-                    _addError("imageForm", json.message);
+                try {
+                    const response = await fetch(ENDPOINT + "encodeImage", {
+                    method: 'POST',
+                    body: model.formData
+                    });
+                    const json = await response.json();
+                    if(json.success){
+                        _displayFile("imagePreview", json.file);
+                    } else {
+                        _addError("imageForm", json.message);
+                    }
+                } catch(e){
+                    _addError("imageForm", e.toString());
                 }
                 _toggleLoad();
            }
@@ -128,18 +146,24 @@ const App = (function(){
         _attachEventHandler("decodeBtn", "click", async (el, event) => {
             event.preventDefault();
             const model = _getFormData();
-            if(_validateForm(model)){
+            if(_validateForm(model, { allowedImageTypes : [ "image/bmp" ] })){
                 _toggleLoad();
-                const response = await fetch(ENDPOINT + "decodeImage", {
-                   method: 'POST',
-                   body: model.formData
-                });
-                const json = await response.json();
-                if(json.success){
-                    _displayFile("imagePreview", json.file);
-                    _setText("textInput", json.text);
-                } else {
-                    _addError("imageForm", json.message);
+                _setText("textInput", "Loading...");
+                try {
+                    const response = await fetch(ENDPOINT + "decodeImage", {
+                        method: 'POST',
+                        body: model.formData
+                    });
+                    const json = await response.json();
+                    if(json.success){
+                        _displayFile("imagePreview", json.file);
+                        const text = _attemptParse(json.text);
+                        _setText("textInput", text);
+                    } else {
+                        _addError("imageForm", json.message);
+                    }
+                } catch(e){
+                    _addError("imageForm", e.toString());
                 }
                 _toggleLoad();
            }
@@ -150,7 +174,7 @@ const App = (function(){
             const link = App._document.createElement('a');
             const image = App._document.getElementById("imagePreview");
             link.href = image.src;
-            link.download = "output.jpg";
+            link.download = `output_${_getRandomString(8)}.bmp`;
             App._document.body.appendChild(link);
             link.click();
             App._document.body.removeChild(link);
