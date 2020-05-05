@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
-const bmp = require("./lib/bmp-js");
+const bmp = require("bmp-js");
 const jpeg = require("jpeg-js");
 const algorithms = require("./lib/algorithms");
 
@@ -43,7 +43,10 @@ app.post("/api/encodeImage", (req, res) => {
                     processedData = algorithms.encode.threshold(rawInData.data);
                     break;
                 case "alpha":
-                    processedData = algorithms.encode.alpha(rawInData.data);
+                    processedData = algorithms.encode.alpha(rawInData.data, text);
+                    break;
+                case "proprietary":
+                    processedData = algorithms.encode.proprietary(rawInData.data, text);
                     break;
                 default:
                     processedData = rawInData.data;
@@ -65,6 +68,7 @@ app.post("/api/encodeImage", (req, res) => {
             });
         }
     } catch(e){
+        console.log(e);
         res.status(500).json({
             success: false,
             message: e.toString()
@@ -93,6 +97,9 @@ app.post("/api/decodeImage", (req, res) => {
                 case "threshold":
                     extractedText = algorithms.decode.threshold(rawInData.data);
                     break;
+                case "proprietary":
+                    extractedText = algorithms.decode.proprietary(rawInData.data);
+                    break;
                 default:
                     extractedText = "";
                     break;
@@ -114,6 +121,7 @@ app.post("/api/decodeImage", (req, res) => {
             });
         } 
     } catch(e){
+        console.log(e);
         res.status(500).json({
             success: false,
             message: e.toString()
