@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
-const bmp = require("bmp-js");
+const bmp = require("./lib/bmp-js");
 const jpeg = require("jpeg-js");
 const algorithms = require("./lib/algorithms");
 
