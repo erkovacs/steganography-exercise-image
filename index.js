@@ -46,7 +46,7 @@ app.post("/api/encodeImage", (req, res) => {
                     processedData = algorithms.encode.alpha(rawInData.data, text);
                     break;
                 case "proprietary":
-                    processedData = algorithms.encode.proprietary(rawInData.data, text);
+                    processedData = algorithms.encode.proprietary(rawInData, text);
                     break;
                 default:
                     processedData = rawInData.data;
@@ -58,7 +58,7 @@ app.post("/api/encodeImage", (req, res) => {
                 width: rawInData.width,
                 height: rawInData.height,
             };
-            
+
             const bmpImageData = bmp.encode(rawOutData);
             
             const dataUrl = bmpImageData.data.toString("base64");
