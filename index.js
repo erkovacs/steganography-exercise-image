@@ -98,7 +98,7 @@ app.post("/api/decodeImage", (req, res) => {
                     extractedText = algorithms.decode.threshold(rawInData.data);
                     break;
                 case "proprietary":
-                    extractedText = algorithms.decode.proprietary(rawInData.data);
+                    extractedText = algorithms.decode.proprietary(rawInData);
                     break;
                 default:
                     extractedText = "";
