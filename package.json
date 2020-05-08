@@ -4,6 +4,8 @@
   "description": "Steganography Exercise - Image",
   "main": "index.js",
   "scripts": {
+    "setup": "npm install",
+    "start": "env APP_PORT=13000 node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
