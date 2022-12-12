@@ -20,7 +20,7 @@
   "homepage": "https://github.com/codepadawan93/steganography-exercise-image#readme",
   "dependencies": {
     "bmp-js": "^0.1.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-fileupload": ">=1.1.9",
     "jpeg-js": "^0.4.0"
   },
